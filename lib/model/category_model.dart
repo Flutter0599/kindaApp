@@ -51,4 +51,8 @@ class Category {
     final i = 'i';
     //empty
   }
+
+  String dummy() {
+    return 'dummy';
+  }
 }
