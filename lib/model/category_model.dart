@@ -48,6 +48,7 @@ class Category {
     final x = 2;
     final u = '234';
     final qioefhqeiogfqnhe = 'adsfdsfdsfdsgdsgds';
+    final i = 'i';
     //empty
   }
 }
