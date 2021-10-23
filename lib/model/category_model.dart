@@ -55,4 +55,6 @@ class Category {
   String dummy() {
     return 'dummy';
   }
+
+  String dummy2() => 'qwirjqwirjq';
 }
