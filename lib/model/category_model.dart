@@ -1,6 +1,7 @@
 import 'package:kindashop/core/xcontroller.dart';
 
 class Category {
+  
   final String? id;
   final String? name;
   final String? desc;
@@ -42,5 +43,7 @@ class Category {
       'typee': typee,
       'status': status,
     };
+  }
+  void test(){
   }
 }
