@@ -1,7 +1,6 @@
 import 'package:kindashop/core/xcontroller.dart';
 
 class Category {
-  
   final String? id;
   final String? name;
   final String? desc;
@@ -44,6 +43,10 @@ class Category {
       'status': status,
     };
   }
-  void test(){
+
+  void test() {
+    print('tesasgasga');
   }
+
+  void asduasdasf() {}
 }
