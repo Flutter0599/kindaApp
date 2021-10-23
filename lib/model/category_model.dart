@@ -44,9 +44,9 @@ class Category {
     };
   }
 
-  void test() {
-    print('tesasgasga');
+  void newMethod() {
+    final x = 2;
+    final u = '234';
+    //empty
   }
-
-  void asduasdasf() {}
 }
