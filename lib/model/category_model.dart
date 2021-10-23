@@ -50,4 +50,8 @@ class Category {
     final qioefhqeiogfqnhe = 'adsfdsfdsfdsgdsgds';
     //empty
   }
+
+  String dummy() {
+    return 'dummy';
+  }
 }
