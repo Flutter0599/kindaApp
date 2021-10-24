@@ -54,7 +54,7 @@ class XController extends GetxController {
   Set<Product> _favorites = Set();
   Set<dynamic> _carts = Set();
 
-  final defLatitude = "".obs;
+  //final defLatitude = "".obs;
 
   final box = GetStorage();
 
@@ -79,8 +79,8 @@ class XController extends GetxController {
     print(defUuid.value);
 
     //get location
-    defLatitude.value = box.read(KEY_LATITUDE) ?? "";
-    box.write(KEY_LATITUDE, defLatitude.value);
+    // defLatitude.value = box.read(KEY_LATITUDE) ?? "";
+    // box.write(KEY_LATITUDE, defLatitude.value);
     //print(defUuid.value);
 
     //check member
@@ -96,45 +96,45 @@ class XController extends GetxController {
     getAllDataSaved();
   }
 
-  Location location = new Location();
-  getLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+  // Location location = new Location();
+  // getLocation() async {
+  //   bool _serviceEnabled;
+  //   PermissionStatus _permissionGranted;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled) {
+  //       return;
+  //     }
+  //   }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-    LocationData _locationData = await location.getLocation();
-    if (_locationData.latitude != null && _locationData.longitude != null) {
-      String _lat = "${_locationData.latitude},${_locationData.longitude}";
-      saveLatitude(_lat);
-      getAddressFromGeo(_locationData.latitude!, _locationData.longitude!);
-    }
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return;
+  //     }
+  //   }
+  //   LocationData _locationData = await location.getLocation();
+  //   if (_locationData.latitude != null && _locationData.longitude != null) {
+  //     String _lat = "${_locationData.latitude},${_locationData.longitude}";
+  //     saveLatitude(_lat);
+  //     getAddressFromGeo(_locationData.latitude!, _locationData.longitude!);
+  //   }
 
-    location.onLocationChanged.listen((LocationData currentLocation) {
-      // Use current location
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null) {
-        String _lat =
-            "${currentLocation.latitude},${currentLocation.longitude}";
-        saveLatitude(_lat);
-        getAddressFromGeo(
-            currentLocation.latitude!, currentLocation.longitude!);
-      }
-    });
-  }
+  //   location.onLocationChanged.listen((LocationData currentLocation) {
+  //     // Use current location
+  //     if (currentLocation.latitude != null &&
+  //         currentLocation.longitude != null) {
+  //       String _lat =
+  //           "${currentLocation.latitude},${currentLocation.longitude}";
+  //       saveLatitude(_lat);
+  //       getAddressFromGeo(
+  //           currentLocation.latitude!, currentLocation.longitude!);
+  //     }
+  //   });
+  // }
 
   final defDelivery = "".obs;
   saveDeliveryAddress(String address) {
@@ -155,10 +155,10 @@ class XController extends GetxController {
     defAddress.value = currentAddress;
   }
 
-  saveLatitude(String geolat) {
-    box.write(KEY_LATITUDE, geolat);
-    defLatitude.value = geolat;
-  }
+  // saveLatitude(String geolat) {
+  //   box.write(KEY_LATITUDE, geolat);
+  //   defLatitude.value = geolat;
+  // }
 
   logout() {
     saveMember(null);
@@ -211,7 +211,7 @@ class XController extends GetxController {
     //check loggin
     checkIsLoggedIn();
 
-    getLocation();
+    //getLocation();
 
     //get delivery address
     defDelivery.value = box.read(KEY_DELIVERY) ?? "";
@@ -275,7 +275,8 @@ class XController extends GetxController {
         "uuid": "${defUuid.value}",
         "fid": "", //firebase uid
         "fbt": "", //firebase token
-        "lat": "${defLatitude.value}",
+        //"lat": "${defLatitude.value}",
+        "lat": "",
         "is_from": GetPlatform.isAndroid ? "Android" : "iOS",
         "em": member['id_member'] != null ? "${member['email']}" : "",
       });

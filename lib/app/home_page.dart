@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage>
   late CurvedAnimation curve;
 
   final iconList = <IconData>[
-    Icons.home,
+    Icons.notifications,
     Icons.shopping_cart,
     Icons.favorite,
     Icons.person_rounded,

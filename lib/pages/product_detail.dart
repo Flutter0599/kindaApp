@@ -185,6 +185,7 @@ class ProductDetail extends StatelessWidget {
   final typeCart = 1.obs;
 
   formAddToCart() {
+    print('asd');
     itemPrice.value = qtyCounter.value * product.price!;
 
     showFlexibleBottomSheet<void>(
@@ -193,7 +194,6 @@ class ProductDetail extends StatelessWidget {
       maxHeight: 0.80,
       context: Get.context!,
       builder: _buildBottomSheet,
-      anchors: [0, 0.5, 1],
     );
   }
 

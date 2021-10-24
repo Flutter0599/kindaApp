@@ -47,7 +47,7 @@ class CheckoutPage extends StatelessWidget {
     return Container(
       width: Get.width,
       height: Get.height,
-      color: Colors.white,
+      color: Colors.yellow,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
