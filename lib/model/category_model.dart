@@ -45,4 +45,6 @@ class Category {
   }
 
   void cat() {}
+
+  void cat2() {}
 }
