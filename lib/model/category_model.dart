@@ -44,17 +44,5 @@ class Category {
     };
   }
 
-  void newMethod() {
-    final x = 2;
-    final u = '234';
-    final qioefhqeiogfqnhe = 'adsfdsfdsfdsgdsgds';
-    final i = 'i';
-    //empty
-  }
 
-  String dummy() {
-    return 'dummy';
-  }
-
-  String dummy2() => 'qwirjqwirjq';
 }
