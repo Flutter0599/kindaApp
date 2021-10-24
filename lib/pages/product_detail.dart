@@ -1,4 +1,5 @@
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -19,11 +20,14 @@ class ProductDetail extends StatelessWidget {
   final Product product;
   ProductDetail(this.product);
 
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final XController x = XController.to;
     double borderRadius = 35;
+    //List<String> colors = product.colors!.split('#');
+    List<String> sizes = product.sizes!.split('#');
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -52,7 +56,7 @@ class ProductDetail extends StatelessWidget {
                                     borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(borderRadius),
                                       bottomRight:
-                                          Radius.circular(borderRadius),
+                                      Radius.circular(borderRadius),
                                     ),
                                   ),
                                   margin: EdgeInsets.all(0),
@@ -60,7 +64,7 @@ class ProductDetail extends StatelessWidget {
                                     borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(borderRadius),
                                       bottomRight:
-                                          Radius.circular(borderRadius),
+                                      Radius.circular(borderRadius),
                                     ),
                                     child: createSliderImage(x),
                                   ),
@@ -74,14 +78,14 @@ class ProductDetail extends StatelessWidget {
                                     padding: EdgeInsets.only(right: 5),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                                BorderRadius.circular(60),
+                                            BorderRadius.circular(60),
                                           ),
                                           margin: EdgeInsets.only(left: 10),
                                           padding: EdgeInsets.all(10),
@@ -94,26 +98,48 @@ class ProductDetail extends StatelessWidget {
                                             onTap: () => {Get.back()},
                                           ),
                                         ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
+                                        Row(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                BorderRadius.circular(60),
+                                              ),
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(10),
+                                              child: InkWell(
+                                                child: Icon(
+                                                  FontAwesome.share_alt,
+                                                  size: 18,
+                                                  color: Colors.black38,
+                                                ),
+                                                onTap: () => {Get.back()},
+                                              ),
+                                            ),
+                                            SizedBox(width: 20,),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
                                                 BorderRadius.circular(30),
-                                          ),
-                                          margin: EdgeInsets.only(right: 10),
-                                          padding: EdgeInsets.only(
-                                              left: 9,
-                                              right: 8,
-                                              top: 8,
-                                              bottom: 8),
-                                          child: LikeButton(
-                                            size: 18,
-                                            isLiked: x.isItemFavorite(product),
-                                            onTap: (bool isLiked) {
-                                              return onLikeButtonTap(
-                                                  isLiked, product);
-                                            },
-                                          ),
+                                              ),
+                                              margin: EdgeInsets.only(right: 10),
+                                              padding: EdgeInsets.only(
+                                                  left: 9,
+                                                  right: 8,
+                                                  top: 8,
+                                                  bottom: 8),
+                                              child: LikeButton(
+                                                size: 18,
+                                                isLiked: x.isItemFavorite(product),
+                                                onTap: (bool isLiked) {
+                                                  return onLikeButtonTap(
+                                                      isLiked, product);
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -203,10 +229,10 @@ class ProductDetail extends StatelessWidget {
   final itemPrice = 0.0.obs;
 
   Widget _buildBottomSheet(
-    BuildContext context,
-    ScrollController scrollController,
-    double bottomSheetOffset,
-  ) {
+      BuildContext context,
+      ScrollController scrollController,
+      double bottomSheetOffset,
+      ) {
     List<String> colors = product.colors!.split('#');
     List<String> sizes = product.sizes!.split('#');
 
@@ -248,9 +274,10 @@ class ProductDetail extends StatelessWidget {
               children: colors.map((e) {
                 int index = colors.indexOf(e);
                 return Obx(
-                  () => InkWell(
+                      () => InkWell(
                     onTap: () {
                       colorSelected.value = index;
+                      print(colorSelected.value);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -278,7 +305,7 @@ class ProductDetail extends StatelessWidget {
               children: sizes.map((e) {
                 int index = sizes.indexOf(e);
                 return Obx(
-                  () => InkWell(
+                      () => InkWell(
                     onTap: () {
                       sizeSelected.value = index;
                     },
@@ -332,7 +359,7 @@ class ProductDetail extends StatelessWidget {
                   ),
                 ),
                 Obx(
-                  () => Container(
+                      () => Container(
                     decoration: BoxDecoration(
                       color: mainColor,
                       borderRadius: BorderRadius.circular(30),
@@ -384,9 +411,9 @@ class ProductDetail extends StatelessWidget {
                           EasyLoading.showToast("+ Item to cart success...");
                           Product cartProduct = product;
                           cartProduct.selectedColor =
-                              '${colors[colorSelected.value]}';
+                          '${colors[colorSelected.value]}';
                           cartProduct.selectedSize =
-                              '${sizes[sizeSelected.value]}';
+                          '${sizes[sizeSelected.value]}';
 
                           cartProduct.qty = qtyCounter.value;
 
@@ -404,7 +431,7 @@ class ProductDetail extends StatelessWidget {
               ),
             if (typeCart.value == 2)
               Obx(
-                () => Container(
+                    () => Container(
                   alignment: Alignment.bottomRight,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -413,7 +440,7 @@ class ProductDetail extends StatelessWidget {
                         width: 160,
                         child: DefaultButton(
                           text:
-                              "Pay ${x.defCurrency.value}${x.numberFormatDec(itemPrice.value, 2)}",
+                          "Pay ${x.defCurrency.value}${x.numberFormatDec(itemPrice.value, 2)}",
                           press: () {
                             Get.back();
                             if (x.member['id_member'] == null) {
@@ -501,7 +528,7 @@ class ProductDetail extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     config.itemCount,
-                    (index) => DefaultButton.buildDot(config.activeIndex,
+                        (index) => DefaultButton.buildDot(config.activeIndex,
                         index: index),
                   ),
                 ),
@@ -515,6 +542,9 @@ class ProductDetail extends StatelessWidget {
   }
 
   Widget generateContent(final XController x) {
+    List<String> sizes = product.sizes!.split('#');
+    List<int> colors = [0xfffff6e9,0xff630b0b,0xff38761d,0xff0b5394];
+
     return Padding(
       padding: EdgeInsets.only(left: 22, right: 20, top: 15),
       child: Column(
@@ -576,7 +606,119 @@ class ProductDetail extends StatelessWidget {
               ],
             ),
           ),
-          spaceHeight10,
+          spaceHeight15,
+          // colors
+          Text("Colors:", style: TextStyle(fontSize: 16)),
+          spaceHeight5,
+          Container(
+            height: 100,
+            child: ListView.builder(
+
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                itemCount: colors.length,
+                itemBuilder: (context, index) {
+                  return
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 25),
+                      child: Stack(
+
+                        children: [
+                          Container(
+                             height: 90,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: mainColor),
+                              color: Color(colors![index]),
+                            ),
+                            // decoration: BoxDecoration(image:DecorationImage(image:AssetImage(pathImage),fit: BoxFit.fill )),
+
+
+                          ),
+                          Transform.translate(
+
+                            offset:  Offset(40 ,15),
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                //borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  border: Border.all(
+                                      color: Colors.black)),
+                              height: 60,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      width:20,
+                                      decoration: BoxDecoration(
+                                      color: backgroundBox
+                                      ),
+                                      child: Icon(Icons.remove,size: 20,color: Colors.black,),
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                      color: mainColor
+                                      ),
+                                      child: Center(child: Text('2',style: TextStyle(color: Colors.black),)),
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      width: 20,
+                                      color: backgroundBox,
+                                      child: Icon(Icons.add, size: 20,color: Colors.black,),
+                                    ),
+                                    flex: 1,
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                }),
+          ),
+          spaceHeight15,
+
+          Text("Size:", style: TextStyle(fontSize: 16)),
+          spaceHeight5,
+          Wrap(
+            children: sizes.map((e) {
+              int index = sizes.indexOf(e);
+              return Obx(
+                    () => InkWell(
+                  onTap: () {
+                    sizeSelected.value = index;
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: index == sizeSelected.value
+                          ? mainColor
+                          : backgroundBox,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(left: 0, right: 10, bottom: 10),
+                    child: Text("$e",
+                        style: TextStyle(
+                            color: index == sizeSelected.value
+                                ? Colors.white
+                                : Colors.black54)),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          spaceHeight15,
           buildDescrption(),
         ],
       ),
