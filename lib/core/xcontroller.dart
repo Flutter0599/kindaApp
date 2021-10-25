@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:share/share.dart';
 import 'package:uuid/uuid.dart';
-import 'package:location/location.dart';
+//import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart' as Geocoding;
 
 enum AppState { loading, done, error }

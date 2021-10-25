@@ -85,71 +85,66 @@ class _HomePageState extends State<HomePage>
       onWillPop: () => onBackPress(),
       child: Theme(
         data: x.defTheme.value,
-        child: Container(
-          width: Get.width,
-          height: Get.height,
-          color: Colors.white,
-          child: SafeArea(
-            top: true,
-            bottom: false,
-            child: Scaffold(
-              extendBody: true,
-              body: Obx(
-                () => switchBodyScreen(x.menuBottomIndex.value),
-              ),
-              floatingActionButton: ScaleTransition(
-                scale: animation,
-                child: FloatingActionButton(
-                  elevation: 8,
-                  backgroundColor: mainColor,
-                  child: Icon(
-                    Icons.home,
-                    color: Colors.white,
-                  ),
-                  // onPressed: () {
-
-                  //   //EasyLoading.showToast("Coming soon..");
-                  //   _animationController.reset();
-
-                  //    scanQR();
-                  //   _animationController.forward();
-                  // },
-                  onPressed: () => x.setMenuBottomIndex(0),
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: Scaffold(
+            extendBody: true,
+            body: Obx(
+              () => switchBodyScreen(x.menuBottomIndex.value),
+            ),
+            floatingActionButton: ScaleTransition(
+              scale: animation,
+              child: FloatingActionButton(
+                elevation: 8,
+                backgroundColor: mainColor,
+                child: Icon(
+                  Icons.home,
+                  color: Colors.white,
                 ),
+                // onPressed: () {
+
+                //   //EasyLoading.showToast("Coming soon..");
+                //   _animationController.reset();
+
+                //    scanQR();
+                //   _animationController.forward();
+                // },
+                onPressed: () => x.setMenuBottomIndex(0),
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-              bottomNavigationBar: Obx(
-                () => AnimatedBottomNavigationBar.builder(
-                  itemCount: iconList.length,
-                  tabBuilder: (int index, bool isActive) {
-                    final color = isActive ? mainColor : greyButton;
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Obx(
-                          () => createIconNavigation(
-                            x,
-                            index,
-                            x.counterFavorite.value,
-                            color,
-                            x.counterCart.value,
-                          ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: Obx(
+              () => AnimatedBottomNavigationBar.builder(
+                itemCount: iconList.length,
+                tabBuilder: (int index, bool isActive) {
+                  final color = isActive ? mainColor : greyButton;
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Obx(
+                        () => createIconNavigation(
+                          x,
+                          index,
+                          x.counterFavorite.value,
+                          color,
+                          x.counterCart.value,
                         ),
-                      ],
-                    );
-                  },
-                  activeIndex: x.menuBottomIndex.value,
-                  splashColor: backgroundBox,
-                  notchAndCornersAnimation: animation,
-                  splashSpeedInMilliseconds: 300,
-                  notchSmoothness: NotchSmoothness.defaultEdge,
-                  gapLocation: GapLocation.center,
-                  leftCornerRadius: 32,
-                  rightCornerRadius: 32,
-                  onTap: (index) => x.setMenuBottomIndex(index),
-                ),
+                      ),
+                    ],
+                  );
+                },
+                activeIndex: x.menuBottomIndex.value,
+                splashColor: backgroundBox,
+                notchAndCornersAnimation: animation,
+                splashSpeedInMilliseconds: 300,
+                notchSmoothness: NotchSmoothness.defaultEdge,
+                gapLocation: GapLocation.center,
+                leftCornerRadius: 32,
+                rightCornerRadius: 32,
+                onTap: (index) => x.setMenuBottomIndex(index),
               ),
             ),
           ),

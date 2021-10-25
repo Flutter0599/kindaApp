@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:kindashop/screens/splash_screen.dart';
 import 'app/home_page.dart';
 import 'core/xcontroller.dart';
 import 'screens/intro_screen.dart';
@@ -21,7 +22,7 @@ void main() async {
     DeviceOrientation.portraitDown
   ]).then((_) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         systemNavigationBarColor: softMainColor,
         statusBarColor: Colors.transparent,
         //for Android statusBarIconBrightness
@@ -34,7 +35,7 @@ void main() async {
 
     final XController x = XController.to;
     x.getHome();
-    Timer.periodic(Duration(minutes: 18), (_t) {
+    Timer.periodic(const Duration(minutes: 18), (_t) {
       x.getHome();
     });
 
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
     fontFamily: GoogleFonts.montserrat().fontFamily,
     backgroundColor: Colors.white,
     accentColor: softMainColor,
-    textSelectionTheme: TextSelectionThemeData(cursorColor: mainColor),
+    textSelectionTheme: const TextSelectionThemeData(cursorColor: mainColor),
   );
 
   @override
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: XController.APP_NAME,
       theme: thisTheme,
-      home: MyHomePage(),
+      home: const SplashPage(),
       builder: (BuildContext? context, Widget? child) {
         /// make sure that loading can be displayed in front of all other widgets
         return FlutterEasyLoading(child: child);

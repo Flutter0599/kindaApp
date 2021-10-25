@@ -5,7 +5,8 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:kindashop/core/xcontroller.dart';
 import 'package:kindashop/model/product_model.dart';
-import 'package:kindashop/pages/checkout_page.dart';
+import 'package:kindashop/pages/add_address_page.dart';
+import 'package:kindashop/pages/check_out_page.dart';
 import 'package:kindashop/pages/product_detail.dart';
 import 'package:kindashop/utils/dimension_color.dart';
 import 'package:kindashop/utils/size_config.dart';
@@ -225,7 +226,8 @@ class CartScreen extends StatelessWidget {
     params['details'] = details;
     params['total'] = totalPayment.value;
 
-    Get.to(CheckoutPage(params));
+    //Get.to(AddAddressPage(params));
+    Get.to(CheckoutPage());
   }
 
   Widget emptyCart(final XController x) {
@@ -248,7 +250,7 @@ class CartScreen extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 16),
             alignment: Alignment.center,
             child: DefaultButton(
-              text: "Order Now",
+              text: "Back",
               press: () {
                 x.setMenuCategoryIndex(0);
                 x.setMenuBottomIndex(0);

@@ -25,6 +25,14 @@ class CustomStyle {
     borderSide: BorderSide(color: Colors.black.withOpacity(0.1), width: 0.5),
   );
 
+  static var cityFocusBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.only(
+      bottomRight: Radius.circular(30),
+      topRight: Radius.circular(30),
+    ),
+    borderSide: BorderSide(color: Colors.black.withOpacity(0.1), width: 0.5),
+  );
+
   static var focusErrorBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(30.0)),
     borderSide: BorderSide(color: Colors.black.withOpacity(0.1), width: 0.5),
