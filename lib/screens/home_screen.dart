@@ -109,10 +109,11 @@ class HomeScreen extends StatelessWidget {
         temps.forEach((element) {
           Map<String, dynamic> categ = element;
           categories.add(Category.fromData(categ));
+          print(x.itemHome.value.datas![0]['categories']);
         });
       }
     } catch (e) {}
-
+///////////////////////////////////////////////////////////////////////////////
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 10),
       child: ListView(
@@ -587,15 +588,28 @@ class HomeScreen extends StatelessWidget {
 
   final ScrollController _controller = new ScrollController();
   Widget listMenu(final XController x, final int indexMenu) {
+    List<Category> categories = [];
+    final List<dynamic>? temps = x.itemHome.value.datas![0]['categories'];
+    try {
+      if (temps != null && temps.length > 0) {
+        temps.forEach((element) {
+          Map<String, dynamic> categ = element;
+          categories.add(Category.fromData(categ));
+          // print(categories.map((e) => e.name));
+        });
+      }
+    } catch (e) {}
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       height: 40,
       child: ListView(
+
         controller: _controller,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        children: horizontalMenu.map((e) {
-          int index = horizontalMenu.indexOf(e);
+        children: categories.map((item) {
+          int index = categories.indexOf(item);
           return InkWell(
             onTap: () {
               x.setMenuCategoryIndex(index);
@@ -609,13 +623,18 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               margin: EdgeInsets.only(
                   left: index == 0 ? 25 : 0,
-                  right: (index >= horizontalMenu.length - 1) ? 15 : 10),
+                  right: (index >= categories.length - 1) ? 15 : 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: indexMenu == index ? mainColor : backgroundBox,
               ),
-              child: Text(
-                "$e",
+              child:index < 10 ? Text(
+                item.name.toString(),
+                style: TextStyle(
+                    fontSize: 15,
+                    color: indexMenu == index ? Colors.white : Colors.black45),
+              ): Text(
+                'See more',
                 style: TextStyle(
                     fontSize: 15,
                     color: indexMenu == index ? Colors.white : Colors.black45),
@@ -678,5 +697,5 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
-  }
+  }// Search widget
 }
