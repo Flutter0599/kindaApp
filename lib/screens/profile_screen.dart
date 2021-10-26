@@ -21,7 +21,6 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final XController x = XController.to;
-    
 
     return Container(
       width: Get.width,
@@ -34,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
             child: IconButton(
               icon: Icon(Feather.chevron_left, color: Colors.black54),
               onPressed: () {
-                x.setMenuBottomIndex(0);
+                x.setMenuBottomIndex(4);
               },
             ),
           ),

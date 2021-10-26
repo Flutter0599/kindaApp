@@ -604,7 +604,6 @@ class HomeScreen extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       height: 40,
       child: ListView(
-
         controller: _controller,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -628,17 +627,23 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 color: indexMenu == index ? mainColor : backgroundBox,
               ),
-              child:index < 10 ? Text(
-                item.name.toString(),
-                style: TextStyle(
-                    fontSize: 15,
-                    color: indexMenu == index ? Colors.white : Colors.black45),
-              ): Text(
-                'See more',
-                style: TextStyle(
-                    fontSize: 15,
-                    color: indexMenu == index ? Colors.white : Colors.black45),
-              ),
+              child: index < 10
+                  ? Text(
+                      item.name.toString(),
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: indexMenu == index
+                              ? Colors.white
+                              : Colors.black45),
+                    )
+                  : Text(
+                      'See more',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: indexMenu == index
+                              ? Colors.white
+                              : Colors.black45),
+                    ),
             ),
           );
         }).toList(),
@@ -686,7 +691,7 @@ class HomeScreen extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.notifications_outlined, color: greyInput),
                 onPressed: () {
-                  EasyLoading.showToast("Coming soon...");
+                  x.setMenuBottomIndex(0);
                   /*x.setDefaultTheme(x.defTheme.value == ItemTheme().themeLight
                     ? ItemTheme().themeDark
                     : ItemTheme().themeLight);*/
@@ -697,5 +702,5 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
-  }// Search widget
+  } // Search widget
 }

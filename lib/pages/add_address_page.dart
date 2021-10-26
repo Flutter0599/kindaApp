@@ -338,6 +338,7 @@ class AddAddressPage extends StatelessWidget {
                 // params['address'] = post;
 
                 // gotoPayOrder(params);
+                EasyLoading.showToast('Coming soon ...');
               },
             ),
           ),

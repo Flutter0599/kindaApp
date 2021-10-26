@@ -25,7 +25,7 @@ class ProductDetail extends StatelessWidget {
     SizeConfig().init(context);
     final XController x = XController.to;
     double borderRadius = 35;
-    //List<String> colors = product.colors!.split('#');
+    List<String> colors = product.colors!.split('#');
     List<String> sizes = product.sizes!.split('#');
 
     return Scaffold(
@@ -188,8 +188,24 @@ class ProductDetail extends StatelessWidget {
                           child: DefaultButton(
                             text: "Add to cart",
                             press: () {
-                              typeCart.value = 2;
-                              formAddToCart();
+                              // typeCart.value = 2;
+                              // formAddToCart();
+                              EasyLoading.showToast(
+                                  "+ Item to cart success...");
+                              Product cartProduct = product;
+                              cartProduct.selectedColor =
+                                  '${colors[colorSelected.value]}';
+                              cartProduct.selectedSize =
+                                  '${sizes[sizeSelected.value]}';
+
+                              cartProduct.qty = qtyCounter.value;
+
+                              dynamic jsonProduct = cartProduct.toJson();
+                              x.addRemoveItemCart(jsonProduct, false);
+                              Get.back();
+                              Future.delayed(Duration(milliseconds: 1200), () {
+                                Get.back();
+                              });
                             },
                           ),
                         ),
@@ -541,6 +557,7 @@ class ProductDetail extends StatelessWidget {
   Widget generateContent(final XController x) {
     List<String> sizes = product.sizes!.split('#');
     List<int> colors = [0xfffff6e9, 0xff630b0b, 0xff38761d, 0xff0b5394];
+    List<String> colorsx = product.colors!.split('#');
 
     return Padding(
       padding: EdgeInsets.only(left: 22, right: 20, top: 15),
@@ -709,6 +726,36 @@ class ProductDetail extends StatelessWidget {
                     child: Text("$e",
                         style: TextStyle(
                             color: index == sizeSelected.value
+                                ? Colors.white
+                                : Colors.black54)),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          Text("Old color selection:", style: TextStyle(fontSize: 16)),
+          spaceHeight5,
+          Wrap(
+            children: colorsx.map((e) {
+              int index = colorsx.indexOf(e);
+              return Obx(
+                () => InkWell(
+                  onTap: () {
+                    colorSelected.value = index;
+                    print(colorSelected.value);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: index == colorSelected.value
+                          ? mainColor
+                          : backgroundBox,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(left: 0, right: 10, bottom: 10),
+                    child: Text("$e",
+                        style: TextStyle(
+                            color: index == colorSelected.value
                                 ? Colors.white
                                 : Colors.black54)),
                   ),

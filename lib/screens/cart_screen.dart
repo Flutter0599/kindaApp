@@ -39,7 +39,7 @@ class CartScreen extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Feather.chevron_left, color: Colors.black54),
                 onPressed: () {
-                  x.setMenuBottomIndex(0);
+                  x.setMenuBottomIndex(4);
                 },
               ),
             ),
@@ -173,7 +173,11 @@ class CartScreen extends StatelessWidget {
                                                     "Checkout ${x.defCurrency.value}${x.numberFormatDec(totalPayment.value, 2)}",
                                                 press: () {
                                                   if (totalPayment.value > 0) {
-                                                    gotoCheckoutPage(x);
+                                                    //gotoCheckoutPage(x);
+                                                    Get.to(AddAddressPage({}));
+                                                  } else {
+                                                    EasyLoading.showToast(
+                                                        'No seleted item...');
                                                   }
                                                 },
                                               ),

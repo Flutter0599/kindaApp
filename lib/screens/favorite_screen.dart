@@ -33,7 +33,7 @@ class FavoriteScreen extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Feather.chevron_left, color: Colors.black54),
                 onPressed: () {
-                  x.setMenuBottomIndex(0);
+                  x.setMenuBottomIndex(4);
                 },
               ),
             ),

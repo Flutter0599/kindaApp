@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
+import 'package:kindashop/screens/notification_screen.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:kindashop/core/scanqrlib/scan_qr.dart';
 import 'package:kindashop/core/xcontroller.dart';
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage>
                 //    scanQR();
                 //   _animationController.forward();
                 // },
-                onPressed: () => x.setMenuBottomIndex(0),
+                onPressed: () => x.setMenuBottomIndex(4),
               ),
             ),
             floatingActionButtonLocation:
@@ -336,13 +337,15 @@ class _HomePageState extends State<HomePage>
   Widget switchBodyScreen(final int index) {
     switch (index) {
       case 0:
-        return HomeScreen();
+        return NotificationScreen();
       case 1:
         return CartScreen();
       case 2:
         return FavoriteScreen();
       case 3:
         return ProfileScreen();
+      case 4:
+        return HomeScreen();
       default:
         return DefaultScreen();
     }
