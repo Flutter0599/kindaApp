@@ -59,7 +59,7 @@ class CartScreen extends StatelessWidget {
                           if (x.carts.length == split.length - 1) {
                             EasyLoading.showToast("Clear your carts...");
                             x.clearCarts();
-                            x.setMenuBottomIndex(0);
+                            x.setMenuBottomIndex(4);
                           } else {
                             if (arrayVal != '' && split.length > 0) {
                               split.forEach((String idp) {
@@ -257,7 +257,7 @@ class CartScreen extends StatelessWidget {
               text: "Back",
               press: () {
                 x.setMenuCategoryIndex(0);
-                x.setMenuBottomIndex(0);
+                x.setMenuBottomIndex(4);
               },
             ),
           ),

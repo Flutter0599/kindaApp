@@ -36,9 +36,9 @@ void main() async {
     final XController x = XController.to;
     x.setMenuBottomIndex(4);
     x.getHome();
-    Timer.periodic(const Duration(minutes: 18), (_t) {
-      x.getHome();
-    });
+    // Timer.periodic(const Duration(minutes: 18), (_t) {
+    //   x.getHome();
+    // });
 
     return runApp(MyApp());
   });

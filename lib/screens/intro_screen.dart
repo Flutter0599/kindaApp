@@ -50,7 +50,7 @@ class _IntroScreenState extends State<IntroScreen> {
     SizeConfig().init(context);
 
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SizedBox(
           width: double.infinity,
