@@ -3,15 +3,13 @@ class Address {
   final String? lastName;
   final String? phone;
   final String? city;
-  final String? zip;
-  final String? test2;
+  final String? zipx;
 
   Address({
     this.fisrtName,
     this.lastName,
     this.phone,
     this.city,
-    this.zip,
-    this.test2,
+    this.zipx,
   });
 }
