@@ -18,6 +18,7 @@ import 'package:kindashop/widgets/gallery_wrapper.dart';
 
 class ProductDetail extends StatelessWidget {
   final Product product;
+
   ProductDetail(this.product);
 
   @override
@@ -27,7 +28,6 @@ class ProductDetail extends StatelessWidget {
     double borderRadius = 35;
     List<String> colors = product.colors!.split('#');
     List<String> sizes = product.sizes!.split('#');
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -48,7 +48,6 @@ class ProductDetail extends StatelessWidget {
                         children: [
                           Stack(
                             children: [
-                              ///picture slider
                               Container(
                                 decoration: BoxDecoration(
                                   color: backgroundBox.withOpacity(.19),
@@ -66,8 +65,6 @@ class ProductDetail extends StatelessWidget {
                                   child: createSliderImage(x),
                                 ),
                               ),
-
-                              ///upper row buttons
                               Positioned(
                                 top: Get.mediaQuery.padding.top + 10,
                                 left: 5,
@@ -149,12 +146,9 @@ class ProductDetail extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // ElevatedButton(
-                          //     onPressed: () {
-                          //       print(product.colors);
-                          //     },
-                          //     child: Text('Test')),
-                          generateContent(x),
+                          Obx(() {
+                            return generateContent(x);
+                          }),
                         ],
                       ),
                     ),
@@ -566,222 +560,250 @@ class ProductDetail extends StatelessWidget {
     List<String> sizes = product.sizes!.split('#');
     List<int> colors = [0xfffff6e9, 0xff630b0b, 0xff38761d, 0xff0b5394];
     List<String> colorsx = product.colors!.split('#');
+    var count = 1.obs ;
+    //count.obs;
+
+    void addcount() {
+      count++;
+      print(count);
+    }
+
+    void removecount() {
+      count--;
+      print(count);
+    }
 
     return Padding(
-      padding: EdgeInsets.only(left: 22, right: 20, top: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "${product.name}",
-            maxLines: 3,
-            style: Get.theme.textTheme.headline6!.copyWith(
-              fontSize: 17,
-              height: 1.2,
-              fontWeight: FontWeight.w600,
+        padding: EdgeInsets.only(left: 22, right: 20, top: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "${product.name}",
+              maxLines: 3,
+              style: Get.theme.textTheme.headline6!.copyWith(
+                fontSize: 17,
+                height: 1.2,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          SizedBox(height: 3),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "${x.getCategoryNameFromId(product.idcategory)}",
-                style: TextStyle(color: grey),
-              ),
-              Text(
-                "${x.defCurrency.value}${product.price}",
-                style: Get.theme.textTheme.bodyText1!.copyWith(
-                    color: mainColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          Container(
-            child: Row(
+            SizedBox(height: 3),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RatingBarIndicator(
-                  rating: product.rating!,
-                  itemCount: 5,
-                  itemSize: 22.0,
-                  unratedColor: Colors.amber.withAlpha(50),
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
+                Text(
+                  "${x.getCategoryNameFromId(product.idcategory)}",
+                  style: TextStyle(color: grey),
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 5),
-                      child: Icon(Icons.favorite, color: Colors.red, size: 15),
-                    ),
-                    Text("${product.totalike}",
-                        style: TextStyle(fontSize: 11, color: Colors.black87)),
-                  ],
-                )
+                Text(
+                  "${x.defCurrency.value}${product.price}",
+                  style: Get.theme.textTheme.bodyText1!.copyWith(
+                      color: mainColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-          ),
-          spaceHeight15,
-          // colors
-          Text("Colors:", style: TextStyle(fontSize: 16)),
-          spaceHeight5,
-          Container(
-            height: 100,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemCount: colors.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 25),
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 90,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: mainColor),
-                            color: Color(colors[index]),
-                          ),
-                          // decoration: BoxDecoration(image:DecorationImage(image:AssetImage(pathImage),fit: BoxFit.fill )),
-                        ),
-                        Transform.translate(
-                          offset: Offset(40, 15),
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
+            Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RatingBarIndicator(
+                    rating: product.rating!,
+                    itemCount: 5,
+                    itemSize: 22.0,
+                    unratedColor: Colors.amber.withAlpha(50),
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child:
+                            Icon(Icons.favorite, color: Colors.red, size: 15),
+                      ),
+                      Text("${product.totalike}",
+                          style:
+                              TextStyle(fontSize: 11, color: Colors.black87)),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            spaceHeight15,
+            // colors
+            Text("Colors:", style: TextStyle(fontSize: 16)),
+            spaceHeight5,
+            Container(
+              height: 100,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  physics: ScrollPhysics(),
+                  itemCount: colors.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 25),
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 90,
+                            width: 50,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border:
-                                    Border.all(color: Colors.black, width: 1)),
-                            height: 60,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    width: 20,
-                                    decoration:
-                                        BoxDecoration(color: backgroundBox),
-                                    child: Icon(
-                                      Icons.remove,
-                                      size: 20,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  flex: 1,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: 20,
-                                    decoration: BoxDecoration(color: mainColor),
-                                    child: Center(
-                                        child: Text(
-                                      '2',
-                                      style: TextStyle(color: Colors.black),
-                                    )),
-                                  ),
-                                  flex: 1,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: 20,
-                                    decoration: BoxDecoration(
-                                      color: backgroundBox,
-                                      // borderRadius: BorderRadius.only(
-                                      //   bottomLeft: Radius.circular(10),
-                                      //   bottomRight: Radius.circular(10),
-                                      // )
-                                    ),
-                                    child: Icon(
-                                      Icons.add,
-                                      size: 20,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: mainColor),
+                              color: Color(colors[index]),
                             ),
+                            // decoration: BoxDecoration(image:DecorationImage(image:AssetImage(pathImage),fit: BoxFit.fill )),
                           ),
-                        )
-                      ],
-                    ),
-                  );
-                }),
-          ),
-          spaceHeight15,
+                          Transform.translate(
+                            offset: Offset(40, 15),
+                            child: Container(
+                              clipBehavior: Clip.antiAlias,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                  border: Border.all(color: mainColor)),
+                              height: 60,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      child: Container(
+                                        width: 20,
+                                        decoration: BoxDecoration(
+                                          color: backgroundBox,
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(5),
+                                              topRight: Radius.circular(5)),
+                                        ),
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 20,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        addcount();
+                                      },
+                                    ),
+                                    flex: 1,
+                                  ),
 
-          Text("Size:", style: TextStyle(fontSize: 16)),
-          spaceHeight5,
-          Wrap(
-            children: sizes.map((e) {
-              int index = sizes.indexOf(e);
-              return Obx(
-                () => InkWell(
-                  onTap: () {
-                    sizeSelected.value = index;
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: index == sizeSelected.value
-                          ? mainColor
-                          : backgroundBox,
-                      borderRadius: BorderRadius.circular(20),
+                                  Expanded(
+                                    child: Container(
+                                      width: 20,
+                                      decoration:
+                                          BoxDecoration(color: mainColor),
+                                      child: Center(
+                                          child: Text(
+                                        count.toString(),
+                                        style: TextStyle(color: Colors.black),
+                                      )),
+                                    ),
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        removecount();
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: backgroundBox,
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(5),
+                                              bottomRight: Radius.circular(5)),
+                                        ),
+                                        width: 20,
+                                        child: Icon(
+                                          Icons.remove,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    flex: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+            ),
+            spaceHeight15,
+
+            Text("Size:", style: TextStyle(fontSize: 16)),
+            spaceHeight5,
+            Wrap(
+              children: sizes.map((e) {
+                int index = sizes.indexOf(e);
+                return Obx(
+                  () => InkWell(
+                    onTap: () {
+                      sizeSelected.value = index;
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: index == sizeSelected.value
+                            ? mainColor
+                            : backgroundBox,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(left: 0, right: 10, bottom: 10),
+                      child: Text("$e",
+                          style: TextStyle(
+                              color: index == sizeSelected.value
+                                  ? Colors.white
+                                  : Colors.black54)),
                     ),
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(left: 0, right: 10, bottom: 10),
-                    child: Text("$e",
-                        style: TextStyle(
-                            color: index == sizeSelected.value
-                                ? Colors.white
-                                : Colors.black54)),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-          Text("Old color selection:", style: TextStyle(fontSize: 16)),
-          spaceHeight5,
-          Wrap(
-            children: colorsx.map((e) {
-              int index = colorsx.indexOf(e);
-              return Obx(
-                () => InkWell(
-                  onTap: () {
-                    colorSelected.value = index;
-                    print(colorSelected.value);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: index == colorSelected.value
-                          ? mainColor
-                          : backgroundBox,
-                      borderRadius: BorderRadius.circular(20),
+                );
+              }).toList(),
+            ),
+            Text("Old color selection:", style: TextStyle(fontSize: 16)),
+            spaceHeight5,
+            Wrap(
+              children: colorsx.map((e) {
+                int index = colorsx.indexOf(e);
+                return Obx(
+                  () => InkWell(
+                    onTap: () {
+                      colorSelected.value = index;
+                      print(colorSelected.value);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: index == colorSelected.value
+                            ? mainColor
+                            : backgroundBox,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(left: 0, right: 10, bottom: 10),
+                      child: Text("$e",
+                          style: TextStyle(
+                              color: index == colorSelected.value
+                                  ? Colors.white
+                                  : Colors.black54)),
                     ),
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(left: 0, right: 10, bottom: 10),
-                    child: Text("$e",
-                        style: TextStyle(
-                            color: index == colorSelected.value
-                                ? Colors.white
-                                : Colors.black54)),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-          spaceHeight15,
-          buildDescrption(),
-        ],
-      ),
-    );
+                );
+              }).toList(),
+            ),
+            spaceHeight15,
+            buildDescrption(),
+          ],
+        ));
   }
 
   Widget buildDescrption() {
