@@ -4,6 +4,7 @@ class Address {
   final String? phone;
   final String? city;
   final String? zip;
+  final String test;
 
   Address({
     this.fisrtName,
@@ -11,5 +12,6 @@ class Address {
     this.phone,
     this.city,
     this.zip,
+    this.test,
   });
 }
