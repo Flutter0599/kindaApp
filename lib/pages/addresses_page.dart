@@ -73,14 +73,16 @@ class _AddressesPageState extends State<AddressesPage> {
   }
 
   Widget showAddressesList() {
-    return Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: x.addresses.length,
-          itemBuilder: (context, index) => Text(x.addresses[index].fisrtName),
-        ),
-      ],
+    return Obx(
+      () => Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: x.addresses.length,
+            itemBuilder: (context, index) => Text(x.addresses[index].fisrtName),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -337,9 +337,6 @@ class XController extends GetxController {
       final storageAddresses = box.read(KEY_ADDRESSES);
       final x = jsonDecode(storageAddresses) as List;
 
-      // List<Address> q =
-      //     storageAddresses.map((e) => Address.fromJson(jsonDecode(e))).toList();
-      List<Address> q = [];
       x.forEach((element) {
         Address temp = Address.fromJson(element);
         addresses.add(temp);
@@ -350,6 +347,7 @@ class XController extends GetxController {
   void saveNewAddress(Address address) {
     addresses.add(address);
     update();
+    box.remove(KEY_ADDRESSES);
     box.write(
         KEY_ADDRESSES, jsonEncode(addresses.map((e) => e.toJson()).toList()));
   }

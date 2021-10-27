@@ -16,18 +16,34 @@ import 'package:kindashop/widgets/default_button.dart';
 import 'package:like_button/like_button.dart';
 import 'package:kindashop/widgets/gallery_wrapper.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
   final Product product;
 
   ProductDetail(this.product);
 
   @override
+  State<ProductDetail> createState() => _ProductDetailState();
+
+  static Future<bool> onLikeButtonTap(bool isLiked, Product product) async {
+    XController x = XController.to;
+    x.toggleFavorites(product);
+
+    return !isLiked;
+  }
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+  var count = 1.obs;
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final XController x = XController.to;
     double borderRadius = 35;
-    List<String> colors = product.colors!.split('#');
-    List<String> sizes = product.sizes!.split('#');
+    RxInt count = 1.obs;
+    print(count);
+
+    List<String> colors = widget.product.colors!.split('#');
+    List<String> sizes = widget.product.sizes!.split('#');
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -130,11 +146,12 @@ class ProductDetail extends StatelessWidget {
                                                 bottom: 8),
                                             child: LikeButton(
                                               size: 18,
-                                              isLiked:
-                                                  x.isItemFavorite(product),
+                                              isLiked: x.isItemFavorite(
+                                                  widget.product),
                                               onTap: (bool isLiked) {
-                                                return onLikeButtonTap(
-                                                    isLiked, product);
+                                                return ProductDetail
+                                                    .onLikeButtonTap(isLiked,
+                                                        widget.product);
                                               },
                                             ),
                                           ),
@@ -146,9 +163,7 @@ class ProductDetail extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Obx(() {
-                            return generateContent(x);
-                          }),
+                          generateContent(x),
                         ],
                       ),
                     ),
@@ -194,7 +209,7 @@ class ProductDetail extends StatelessWidget {
                               // formAddToCart();
                               EasyLoading.showToast(
                                   "+ Item to cart success...");
-                              Product cartProduct = product;
+                              Product cartProduct = widget.product;
                               cartProduct.selectedColor =
                                   '${colors[colorSelected.value]}';
                               cartProduct.selectedSize =
@@ -223,11 +238,10 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  // 1 == add to cart, 2 == buy now
   final typeCart = 1.obs;
 
   formAddToCart() {
-    itemPrice.value = qtyCounter.value * product.price!;
+    itemPrice.value = qtyCounter.value * widget.product.price!;
 
     showFlexibleBottomSheet<void>(
       minHeight: 0,
@@ -239,8 +253,11 @@ class ProductDetail extends StatelessWidget {
   }
 
   final colorSelected = 0.obs;
+
   final sizeSelected = 0.obs;
+
   final qtyCounter = 1.obs;
+
   final itemPrice = 0.0.obs;
 
   Widget _buildBottomSheet(
@@ -248,8 +265,8 @@ class ProductDetail extends StatelessWidget {
     ScrollController scrollController,
     double bottomSheetOffset,
   ) {
-    List<String> colors = product.colors!.split('#');
-    List<String> sizes = product.sizes!.split('#');
+    List<String> colors = widget.product.colors!.split('#');
+    List<String> sizes = widget.product.sizes!.split('#');
 
     final XController x = XController.to;
 
@@ -358,7 +375,7 @@ class ProductDetail extends StatelessWidget {
                     }
 
                     qtyCounter.value = qty;
-                    itemPrice.value = qtyCounter.value * product.price!;
+                    itemPrice.value = qtyCounter.value * widget.product.price!;
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -395,7 +412,7 @@ class ProductDetail extends StatelessWidget {
                     }
 
                     qtyCounter.value = qty;
-                    itemPrice.value = qtyCounter.value * product.price!;
+                    itemPrice.value = qtyCounter.value * widget.product.price!;
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -424,7 +441,7 @@ class ProductDetail extends StatelessWidget {
                         text: "+ Cart",
                         press: () {
                           EasyLoading.showToast("+ Item to cart success...");
-                          Product cartProduct = product;
+                          Product cartProduct = widget.product;
                           cartProduct.selectedColor =
                               '${colors[colorSelected.value]}';
                           cartProduct.selectedSize =
@@ -469,10 +486,10 @@ class ProductDetail extends StatelessWidget {
                               "total": itemPrice.value,
                               "details": [
                                 {
-                                  "ip": "${product.id}",
+                                  "ip": "${widget.product.id}",
                                   "qty": "${qtyCounter.value}",
-                                  "price": "${product.price}",
-                                  "curr": "${product.currency}",
+                                  "price": "${widget.product.price}",
+                                  "curr": "${widget.product.currency}",
                                   "color": "${colors[colorSelected.value]}",
                                   "size": "${sizes[sizeSelected.value]}"
                                 }
@@ -493,23 +510,16 @@ class ProductDetail extends StatelessWidget {
     );
   }
 
-  static Future<bool> onLikeButtonTap(bool isLiked, Product product) async {
-    XController x = XController.to;
-    x.toggleFavorites(product);
-
-    return !isLiked;
-  }
-
   Widget createSliderImage(final XController x) {
     List<String> images = [];
-    if (product.image1 != null && product.image1 != '') {
-      images.add(product.image1!);
+    if (widget.product.image1 != null && widget.product.image1 != '') {
+      images.add(widget.product.image1!);
     }
-    if (product.image2 != null && product.image2 != '') {
-      images.add(product.image2!);
+    if (widget.product.image2 != null && widget.product.image2 != '') {
+      images.add(widget.product.image2!);
     }
-    if (product.image3 != null && product.image3 != '') {
-      images.add(product.image3!);
+    if (widget.product.image3 != null && widget.product.image3 != '') {
+      images.add(widget.product.image3!);
     }
     return Container(
       width: Get.width,
@@ -557,21 +567,9 @@ class ProductDetail extends StatelessWidget {
   }
 
   Widget generateContent(final XController x) {
-    List<String> sizes = product.sizes!.split('#');
+    List<String> sizes = widget.product.sizes!.split('#');
     List<int> colors = [0xfffff6e9, 0xff630b0b, 0xff38761d, 0xff0b5394];
-    List<String> colorsx = product.colors!.split('#');
-    var count = 1.obs ;
-    //count.obs;
-
-    void addcount() {
-      count++;
-      print(count);
-    }
-
-    void removecount() {
-      count--;
-      print(count);
-    }
+    List<String> colorsx = widget.product.colors!.split('#');
 
     return Padding(
         padding: EdgeInsets.only(left: 22, right: 20, top: 15),
@@ -579,7 +577,7 @@ class ProductDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${product.name}",
+              "${widget.product.name}",
               maxLines: 3,
               style: Get.theme.textTheme.headline6!.copyWith(
                 fontSize: 17,
@@ -593,11 +591,11 @@ class ProductDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${x.getCategoryNameFromId(product.idcategory)}",
+                  "${x.getCategoryNameFromId(widget.product.idcategory)}",
                   style: TextStyle(color: grey),
                 ),
                 Text(
-                  "${x.defCurrency.value}${product.price}",
+                  "${x.defCurrency.value}${widget.product.price}",
                   style: Get.theme.textTheme.bodyText1!.copyWith(
                       color: mainColor,
                       fontSize: 18,
@@ -611,7 +609,7 @@ class ProductDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RatingBarIndicator(
-                    rating: product.rating!,
+                    rating: widget.product.rating!,
                     itemCount: 5,
                     itemSize: 22.0,
                     unratedColor: Colors.amber.withAlpha(50),
@@ -628,7 +626,7 @@ class ProductDetail extends StatelessWidget {
                         child:
                             Icon(Icons.favorite, color: Colors.red, size: 15),
                       ),
-                      Text("${product.totalike}",
+                      Text("${widget.product.totalike}",
                           style:
                               TextStyle(fontSize: 11, color: Colors.black87)),
                     ],
@@ -690,29 +688,33 @@ class ProductDetail extends StatelessWidget {
                                         ),
                                       ),
                                       onTap: () {
-                                        addcount();
+                                        count.value++;
+                                        print(count);
+                                        print('qqqqqqqqq');
+                                        print(count);
                                       },
                                     ),
                                     flex: 1,
                                   ),
-
-                                  Expanded(
-                                    child: Container(
-                                      width: 20,
-                                      decoration:
-                                          BoxDecoration(color: mainColor),
-                                      child: Center(
-                                          child: Text(
-                                        count.toString(),
-                                        style: TextStyle(color: Colors.black),
-                                      )),
+                                  Obx(
+                                    () => Expanded(
+                                      child: Container(
+                                        width: 20,
+                                        decoration:
+                                            BoxDecoration(color: mainColor),
+                                        child: Center(
+                                            child: Text(
+                                          count.value.toString(),
+                                          style: TextStyle(color: Colors.black),
+                                        )),
+                                      ),
+                                      flex: 1,
                                     ),
-                                    flex: 1,
                                   ),
                                   Expanded(
                                     child: InkWell(
                                       onTap: () {
-                                        removecount();
+                                        count.value--;
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -812,7 +814,7 @@ class ProductDetail extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10),
       child: Column(
         children: <Widget>[
-          Text("${product.desc} \n\n\n\n"),
+          Text("${widget.product.desc} \n\n\n\n"),
         ],
       ),
     );
