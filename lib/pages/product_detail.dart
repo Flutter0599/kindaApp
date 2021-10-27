@@ -48,6 +48,7 @@ class ProductDetail extends StatelessWidget {
                         children: [
                           Stack(
                             children: [
+                              ///picture slider
                               Container(
                                 decoration: BoxDecoration(
                                   color: backgroundBox.withOpacity(.19),
@@ -65,6 +66,8 @@ class ProductDetail extends StatelessWidget {
                                   child: createSliderImage(x),
                                 ),
                               ),
+
+                              ///upper row buttons
                               Positioned(
                                 top: Get.mediaQuery.padding.top + 10,
                                 left: 5,
@@ -146,6 +149,11 @@ class ProductDetail extends StatelessWidget {
                               ),
                             ],
                           ),
+                          // ElevatedButton(
+                          //     onPressed: () {
+                          //       print(product.colors);
+                          //     },
+                          //     child: Text('Test')),
                           generateContent(x),
                         ],
                       ),
@@ -651,8 +659,9 @@ class ProductDetail extends StatelessWidget {
                           child: Container(
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
-                                //borderRadius: BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(color: Colors.black)),
+                                borderRadius: BorderRadius.circular(3),
+                                border:
+                                    Border.all(color: Colors.black, width: 1)),
                             height: 60,
                             child: Column(
                               children: [
@@ -684,14 +693,19 @@ class ProductDetail extends StatelessWidget {
                                 Expanded(
                                   child: Container(
                                     width: 20,
-                                    color: backgroundBox,
+                                    decoration: BoxDecoration(
+                                      color: backgroundBox,
+                                      // borderRadius: BorderRadius.only(
+                                      //   bottomLeft: Radius.circular(10),
+                                      //   bottomRight: Radius.circular(10),
+                                      // )
+                                    ),
                                     child: Icon(
                                       Icons.add,
                                       size: 20,
                                       color: Colors.black,
                                     ),
                                   ),
-                                  flex: 1,
                                 ),
                               ],
                             ),

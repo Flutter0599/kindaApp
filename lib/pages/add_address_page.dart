@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
 import 'package:kindashop/core/xcontroller.dart';
+import 'package:kindashop/model/address_model.dart';
 import 'package:kindashop/pages/ordernow_page.dart';
 import 'package:kindashop/utils/custom_style.dart';
 import 'package:kindashop/utils/dimension_color.dart';
@@ -74,7 +75,7 @@ class AddAddressPage extends StatelessWidget {
 
   final isChecked = false.obs;
 
-  CountryCode? test;
+  String? countryCode = '+962';
 
   Widget createAddressForm(final XController x) {
     return Container(
@@ -300,7 +301,7 @@ class AddAddressPage extends StatelessWidget {
                 String lastName = lastNameController.text;
                 String phone = phoneController.text;
                 String city = cityController.text;
-                String zip = zipController.text;
+                String zipCode = zipController.text;
 
                 if (firstName.isEmpty) {
                   EasyLoading.showToast("First name is empty...");
@@ -312,7 +313,7 @@ class AddAddressPage extends StatelessWidget {
                   return;
                 }
 
-                if (zip.isEmpty) {
+                if (zipCode.isEmpty) {
                   EasyLoading.showToast(" Zip Code is empty...");
                   return;
                 }
@@ -327,7 +328,12 @@ class AddAddressPage extends StatelessWidget {
 
                 ///save to getStorage
 
-                //x.saveDeliveryAddress("$add#$city#$zip");
+                x.saveNewAddress(Address(
+                    fisrtName: firstName,
+                    lastName: lastName,
+                    phone: countryCode! + phone,
+                    city: city,
+                    zipCode: zipCode));
 
                 // Map<String, dynamic> post = {
                 //   "add": "$add",
@@ -338,7 +344,8 @@ class AddAddressPage extends StatelessWidget {
                 // params['address'] = post;
 
                 // gotoPayOrder(params);
-                EasyLoading.showToast('Coming soon ...');
+                EasyLoading.showToast('New addredd added');
+                Get.back();
               },
             ),
           ),
@@ -355,8 +362,7 @@ class AddAddressPage extends StatelessWidget {
     return CountryCodePicker(
       padding: EdgeInsets.zero,
       onChanged: (x) {
-        test = x;
-        print(test!.code);
+        countryCode = x.dialCode;
       },
       textStyle: TextStyle(
         color: Colors.black,

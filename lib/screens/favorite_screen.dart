@@ -42,28 +42,31 @@ class FavoriteScreen extends StatelessWidget {
             elevation: 0.25,
             centerTitle: true,
             actions: [
-              IconButton(
-                  icon: Icon(Feather.x, color: mainColor),
-                  onPressed: () {
-                    //delete all selected
-                    String arrayVal = arrayIndexSelected.value;
-                    List<String> split = arrayVal.split("#");
-                    if (x.favorites.length == split.length - 1) {
-                      EasyLoading.showToast("Clear your wishlist...");
-                      x.clearFavorite();
-                      x.setMenuBottomIndex(0);
-                    } else {
-                      if (arrayVal != '' && split.length > 0) {
-                        split.forEach((String idp) {
-                          if (idp != '') {
-                            x.toggleFavorites(x.getItemFavoriteById(idp)!);
-                          }
-                        });
+              Visibility(
+                visible: false,
+                child: IconButton(
+                    icon: Icon(Feather.x, color: mainColor),
+                    onPressed: () {
+                      //delete all selected
+                      String arrayVal = arrayIndexSelected.value;
+                      List<String> split = arrayVal.split("#");
+                      if (x.favorites.length == split.length - 1) {
+                        EasyLoading.showToast("Clear your wishlist...");
+                        x.clearFavorite();
+                        x.setMenuBottomIndex(0);
                       } else {
-                        EasyLoading.showToast("No item selected...");
+                        if (arrayVal != '' && split.length > 0) {
+                          split.forEach((String idp) {
+                            if (idp != '') {
+                              x.toggleFavorites(x.getItemFavoriteById(idp)!);
+                            }
+                          });
+                        } else {
+                          EasyLoading.showToast("No item selected...");
+                        }
                       }
-                    }
-                  }),
+                    }),
+              ),
             ],
           ),
           body: Container(
@@ -144,24 +147,25 @@ class FavoriteScreen extends StatelessWidget {
           return Container(
             margin: EdgeInsets.only(bottom: 20),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  child: CustomCheckBox(
-                    value: checkArrayIndexExist(product.id!),
-                    shouldShowBorder: false,
-                    uncheckedFillColor: backgroundBox,
-                    borderColor: Colors.red,
-                    checkedFillColor: Colors.red,
-                    uncheckedIcon: Feather.x,
-                    borderRadius: 8,
-                    borderWidth: 1,
-                    checkBoxSize: 22,
-                    onChanged: (val) {
-                      //print(val);
-                      toggleCheckedItem(product.id!);
-                    },
-                  ),
-                ),
+                // Container(
+                //   child: CustomCheckBox(
+                //     value: checkArrayIndexExist(product.id!),
+                //     shouldShowBorder: false,
+                //     uncheckedFillColor: backgroundBox,
+                //     borderColor: Colors.red,
+                //     checkedFillColor: Colors.red,
+                //     uncheckedIcon: Feather.x,
+                //     borderRadius: 8,
+                //     borderWidth: 1,
+                //     checkBoxSize: 22,
+                //     onChanged: (val) {
+                //       //print(val);
+                //       toggleCheckedItem(product.id!);
+                //     },
+                //   ),
+                // ),
                 InkWell(
                   onTap: () {
                     gotoProductDetail(product);
@@ -223,13 +227,15 @@ class FavoriteScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 Container(
                   alignment: Alignment.centerRight,
                   child: IconButton(
                     icon: Icon(Feather.trash, color: mainColor),
                     onPressed: () {
-                      x.toggleFavorites(product);
-                      removeSelectedFromId(product.id!);
+                      showLogout(x, product);
+                      // x.toggleFavorites(product);
+                      // removeSelectedFromId(product.id!);
                     },
                   ),
                 )
@@ -243,5 +249,93 @@ class FavoriteScreen extends StatelessWidget {
 
   gotoProductDetail(final Product product) {
     Get.to(ProductDetail(product));
+  }
+
+  showLogout(final XController x, Product product) {
+    showDialog(
+      context: Get.context!,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: backgroundBox,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            height: 160.0,
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Remove product ?\n",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        width: (Get.width / 3.5),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        x.toggleFavorites(product);
+                        removeSelectedFromId(product.id!);
+                        Get.back();
+                      },
+                      child: Container(
+                        width: (Get.width / 3.5),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          color: mainColor,
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

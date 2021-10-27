@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:kindashop/core/xcontroller.dart';
 import 'package:kindashop/model/product_model.dart';
 import 'package:kindashop/pages/add_address_page.dart';
-import 'package:kindashop/pages/check_out_page.dart';
+import 'package:kindashop/pages/addresses_page.dart';
 import 'package:kindashop/pages/product_detail.dart';
 import 'package:kindashop/utils/dimension_color.dart';
 import 'package:kindashop/utils/size_config.dart';
@@ -173,8 +173,7 @@ class CartScreen extends StatelessWidget {
                                                     "Checkout ${x.defCurrency.value}${x.numberFormatDec(totalPayment.value, 2)}",
                                                 press: () {
                                                   if (totalPayment.value > 0) {
-                                                    //gotoCheckoutPage(x);
-                                                    Get.to(AddAddressPage({}));
+                                                    gotoCheckoutPage(x);
                                                   } else {
                                                     EasyLoading.showToast(
                                                         'No seleted item...');
@@ -202,36 +201,34 @@ class CartScreen extends StatelessWidget {
   }
 
   gotoCheckoutPage(final XController x) {
-    print("gotoCheckoutPage...");
-
     if (x.member['id_member'] == null) {
       EasyLoading.showToast("Login required...");
       Get.back();
       x.setMenuBottomIndex(3);
       return;
+    } else {
+      Map<String, dynamic> params = {};
+      List<Map<String, dynamic>> details = [];
+      x.carts.forEach((dynamic item) {
+        String id = item['id_product'];
+        bool checked = checkArrayIndexExist(id);
+        if (checked) {
+          details.add({
+            "ip": "$id",
+            "qty": "${item['qty']}",
+            "price": "${item['price']}",
+            "curr": "${item['currency']}",
+            "color": "${item['selected_color']}",
+            "size": "${item['selected_size']}"
+          });
+        }
+      });
+      params['details'] = details;
+      params['total'] = totalPayment.value;
+
+      //Get.to(AddAddressPage(params));
+      Get.to(AddressesPage());
     }
-
-    Map<String, dynamic> params = {};
-    List<Map<String, dynamic>> details = [];
-    x.carts.forEach((dynamic item) {
-      String id = item['id_product'];
-      bool checked = checkArrayIndexExist(id);
-      if (checked) {
-        details.add({
-          "ip": "$id",
-          "qty": "${item['qty']}",
-          "price": "${item['price']}",
-          "curr": "${item['currency']}",
-          "color": "${item['selected_color']}",
-          "size": "${item['selected_size']}"
-        });
-      }
-    });
-    params['details'] = details;
-    params['total'] = totalPayment.value;
-
-    //Get.to(AddAddressPage(params));
-    Get.to(CheckoutPage());
   }
 
   Widget emptyCart(final XController x) {

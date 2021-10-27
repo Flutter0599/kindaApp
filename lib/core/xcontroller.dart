@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:kindashop/main.dart';
+import 'package:kindashop/model/address_model.dart';
 import 'package:kindashop/model/product_model.dart';
 import 'package:kindashop/utils/dimension_color.dart';
 import 'package:intl/intl.dart';
@@ -50,6 +51,9 @@ class XController extends GetxController {
   static const KEY_LATITUDE = "_keylatitude";
   static const KEY_ADDRESS = "_keyaddress";
   static const KEY_DELIVERY = "_keydelivery";
+
+  static const KEY_ADDRESSES = '_addresses';
+  RxList<Address> addresses = <Address>[].obs;
 
   Set<Product> _favorites = Set();
   Set<dynamic> _carts = Set();
@@ -214,8 +218,8 @@ class XController extends GetxController {
     //getLocation();
 
     //get delivery address
-    defDelivery.value = box.read(KEY_DELIVERY) ?? "";
-    box.write(KEY_DELIVERY, defDelivery.value);
+    // defDelivery.value = box.read(KEY_DELIVERY) ?? "";
+    // box.write(KEY_DELIVERY, defDelivery.value);
 
     //get address
     defAddress.value = box.read(KEY_ADDRESS) ?? "";
@@ -327,6 +331,27 @@ class XController extends GetxController {
         .addAll(box.read(KEY_CART)?.map((value) => jsonDecode(value)) ?? Set());
 
     counterCart.value = carts.length;
+
+    ///get all addresses saved in get storage
+    if (box.hasData(KEY_ADDRESSES)) {
+      final storageAddresses = box.read(KEY_ADDRESSES);
+      final x = jsonDecode(storageAddresses) as List;
+
+      // List<Address> q =
+      //     storageAddresses.map((e) => Address.fromJson(jsonDecode(e))).toList();
+      List<Address> q = [];
+      x.forEach((element) {
+        Address temp = Address.fromJson(element);
+        addresses.add(temp);
+      });
+    }
+  }
+
+  void saveNewAddress(Address address) {
+    addresses.add(address);
+    update();
+    box.write(
+        KEY_ADDRESSES, jsonEncode(addresses.map((e) => e.toJson()).toList()));
   }
 
   Product? getItemFavoriteById(String id) {
