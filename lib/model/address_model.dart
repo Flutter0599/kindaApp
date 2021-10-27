@@ -4,7 +4,7 @@ class Address {
   final String? phone;
   final String? city;
   final String? zip;
-  final String test2;
+  final String? test2;
 
   Address({
     this.fisrtName,
