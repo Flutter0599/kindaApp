@@ -336,20 +336,30 @@ class XController extends GetxController {
     if (box.hasData(KEY_ADDRESSES)) {
       final storageAddresses = box.read(KEY_ADDRESSES);
       final x = jsonDecode(storageAddresses) as List;
-
-      x.forEach((element) {
-        Address temp = Address.fromJson(element);
-        addresses.add(temp);
-      });
+      addresses.value = x.map((e) => Address.fromJson(e)).toList();
     }
   }
 
+  void removeAllAddresses() {
+    box.remove(KEY_ADDRESSES);
+  }
+
+  void toggleAddressSelection(Address address) {
+    final index = addresses.indexWhere((element) => element == address);
+    final temp = addresses[index];
+    addresses.value.forEach((element) {
+      element.isSelected = false;
+    });
+    temp.isSelected = !temp.isSelected;
+    addresses[index] = temp;
+  }
+
   void saveNewAddress(Address address) {
-    addresses.add(address);
-    update();
+    addresses.insert(0, address);
     box.remove(KEY_ADDRESSES);
     box.write(
         KEY_ADDRESSES, jsonEncode(addresses.map((e) => e.toJson()).toList()));
+    update();
   }
 
   Product? getItemFavoriteById(String id) {

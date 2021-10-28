@@ -533,6 +533,9 @@ class CartScreen extends StatelessWidget {
   }
 
   gotoProductDetail(final Product product) {
-    Get.to(ProductDetail(product));
+    Get.to(ProductDetail(
+      product,
+      hideAddCartButton: true,
+    ));
   }
 }

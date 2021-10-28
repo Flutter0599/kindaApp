@@ -63,7 +63,8 @@ class HomeScreen extends StatelessWidget {
               Obx(
                 () => x.itemHome.value.datas != null &&
                         x.itemHome.value.datas!.length > 0
-                    ? swicthIndexMenu(x, x.menuCategoryIndex.value)
+                    // ? swicthIndexMenu(x, x.menuCategoryIndex.value)
+                    ? swicthIndexMenu(x, 1)
                     : XController.loading(),
               ),
               spaceHeight50
@@ -109,7 +110,6 @@ class HomeScreen extends StatelessWidget {
         temps.forEach((element) {
           Map<String, dynamic> categ = element;
           categories.add(Category.fromData(categ));
-          print(x.itemHome.value.datas![0]['categories']);
         });
       }
     } catch (e) {}
@@ -154,11 +154,18 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(left: 20, right: 5),
-                            child: Text("${item.name}",
-                                maxLines: 1,
-                                style: Get.theme.textTheme.headline6!
-                                    .copyWith(fontSize: 15)))
+                          padding: EdgeInsets.only(left: 20, right: 5),
+                          child:
+                              // Text("${item.name}",
+                              //     maxLines: 1,
+                              //     style: Get.theme.textTheme.headline6!
+                              //         .copyWith(fontSize: 15)),
+                              Text(
+                                  "SubCategory of ${categories[x.menuCategoryIndex.value].name}",
+                                  maxLines: 1,
+                                  style: Get.theme.textTheme.headline6!
+                                      .copyWith(fontSize: 11)),
+                        )
                       ],
                     ),
                   ),

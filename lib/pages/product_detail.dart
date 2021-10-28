@@ -18,8 +18,9 @@ import 'package:kindashop/widgets/gallery_wrapper.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product product;
+  bool hideAddCartButton;
 
-  ProductDetail(this.product);
+  ProductDetail(this.product, {this.hideAddCartButton = false});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -170,67 +171,87 @@ class _ProductDetailState extends State<ProductDetail> {
                   ],
                 ),
               ),
-              Positioned(
-                bottom: GetPlatform.isAndroid ? 0 : 15,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: getProportionateScreenHeight(80),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(20)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: backgroundBox,
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                        margin: EdgeInsets.only(left: 10, right: 15),
-                        child: IconButton(
-                          padding: EdgeInsets.all(18),
-                          iconSize: 20,
-                          icon: Icon(FontAwesome.shopping_cart),
-                          color: Colors.red,
-                          onPressed: () {
-                            typeCart.value = 1;
-                            formAddToCart();
-                          },
+              widget.hideAddCartButton
+                  ? SizedBox()
+                  : Positioned(
+                      bottom: GetPlatform.isAndroid ? 0 : 15,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: getProportionateScreenHeight(80),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: getProportionateScreenWidth(20)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: backgroundBox,
+                                borderRadius: BorderRadius.circular(22),
+                              ),
+                              margin: EdgeInsets.only(left: 10, right: 15),
+                              child: IconButton(
+                                padding: EdgeInsets.all(18),
+                                iconSize: 20,
+                                icon: Icon(FontAwesome.shopping_cart),
+                                color: Colors.red,
+                                onPressed: () {
+                                  //typeCart.value = 1;
+                                  //formAddToCart();
+                                  EasyLoading.showToast(
+                                      "+ Item to cart success...");
+                                  Product cartProduct = widget.product;
+                                  cartProduct.selectedColor =
+                                      '${colors[colorSelected.value]}';
+                                  cartProduct.selectedSize =
+                                      '${sizes[sizeSelected.value]}';
+
+                                  cartProduct.qty = qtyCounter.value;
+
+                                  dynamic jsonProduct = cartProduct.toJson();
+                                  x.addRemoveItemCart(jsonProduct, false);
+                                  Get.back();
+                                  Future.delayed(Duration(milliseconds: 1200),
+                                      () {
+                                    Get.back();
+                                  });
+                                },
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                width: Get.width / 1.2,
+                                child: DefaultButton(
+                                  text: "Add to cart",
+                                  press: () {
+                                    // typeCart.value = 2;
+                                    // formAddToCart();
+                                    EasyLoading.showToast(
+                                        "+ Item to cart success...");
+                                    Product cartProduct = widget.product;
+                                    cartProduct.selectedColor =
+                                        '${colors[colorSelected.value]}';
+                                    cartProduct.selectedSize =
+                                        '${sizes[sizeSelected.value]}';
+
+                                    cartProduct.qty = qtyCounter.value;
+
+                                    dynamic jsonProduct = cartProduct.toJson();
+                                    x.addRemoveItemCart(jsonProduct, false);
+                                    Get.back();
+                                    Future.delayed(Duration(milliseconds: 1200),
+                                        () {
+                                      Get.back();
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      Flexible(
-                        child: Container(
-                          width: Get.width / 1.2,
-                          child: DefaultButton(
-                            text: "Add to cart",
-                            press: () {
-                              // typeCart.value = 2;
-                              // formAddToCart();
-                              EasyLoading.showToast(
-                                  "+ Item to cart success...");
-                              Product cartProduct = widget.product;
-                              cartProduct.selectedColor =
-                                  '${colors[colorSelected.value]}';
-                              cartProduct.selectedSize =
-                                  '${sizes[sizeSelected.value]}';
-
-                              cartProduct.qty = qtyCounter.value;
-
-                              dynamic jsonProduct = cartProduct.toJson();
-                              x.addRemoveItemCart(jsonProduct, false);
-                              Get.back();
-                              Future.delayed(Duration(milliseconds: 1200), () {
-                                Get.back();
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             ],
           ),
         ),

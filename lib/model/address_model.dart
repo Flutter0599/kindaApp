@@ -4,6 +4,7 @@ class Address {
   late String phone;
   late String city;
   late String zipCode;
+  late bool isSelected;
 
   Address({
     required this.fisrtName,
@@ -11,6 +12,7 @@ class Address {
     required this.phone,
     required this.city,
     required this.zipCode,
+    this.isSelected = false,
   });
 
   Address.fromJson(Map<String, dynamic> data) {
@@ -19,6 +21,7 @@ class Address {
     phone = data['phone'];
     city = data['city'];
     zipCode = data['zip_code'];
+    isSelected = false;
   }
 
   Map<String, dynamic> toJson() {
