@@ -619,11 +619,11 @@ class HomeScreen extends StatelessWidget {
           return InkWell(
             onTap: () {
               x.setMenuCategoryIndex(index);
-              _controller.animateTo(
-                (50.0 * index),
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-              );
+              // _controller.animateTo(
+              //   (60.0 * index),
+              //   duration: const Duration(milliseconds: 300),
+              //   curve: Curves.easeOut,
+              // );
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

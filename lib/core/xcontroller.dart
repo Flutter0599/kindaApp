@@ -513,7 +513,7 @@ class XController extends GetxController {
   pushUpdatePassword(String password) {}
 
   static shareContent(String? path, String addOn) {
-    String text = "Download $APP_NAME\n$addOn";
+    String text = "$addOn";
 
     if (path == null) {
       Share.share(text, subject: 'Share $APP_NAME');

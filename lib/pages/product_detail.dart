@@ -35,6 +35,8 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   var count = 1.obs;
+  RxList<int> dummyInts = <int>[0, 0, 0, 0].obs;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -127,7 +129,10 @@ class _ProductDetailState extends State<ProductDetail> {
                                                 size: 18,
                                                 color: Colors.black38,
                                               ),
-                                              onTap: () => {Get.back()},
+                                              onTap: () => {
+                                                XController.shareContent(null,
+                                                    '${widget.product.name}')
+                                              },
                                             ),
                                           ),
                                           SizedBox(
@@ -659,7 +664,7 @@ class _ProductDetailState extends State<ProductDetail> {
             // colors
             Text("Colors:", style: TextStyle(fontSize: 16)),
             spaceHeight5,
-            Container(
+            SizedBox(
               height: 100,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -669,95 +674,111 @@ class _ProductDetailState extends State<ProductDetail> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsetsDirectional.only(end: 25),
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 90,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: mainColor),
-                              color: Color(colors[index]),
-                            ),
-                            // decoration: BoxDecoration(image:DecorationImage(image:AssetImage(pathImage),fit: BoxFit.fill )),
-                          ),
-                          Transform.translate(
-                            offset: Offset(40, 15),
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
+                      child: Container(
+                        width: 70,
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 90,
+                              width: 50,
                               decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  border: Border.all(color: mainColor)),
-                              height: 60,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: InkWell(
-                                      child: Container(
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                          color: backgroundBox,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(5),
-                                              topRight: Radius.circular(5)),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: mainColor),
+                                color: Color(colors[index]),
+                              ),
+                              // decoration: BoxDecoration(image:DecorationImage(image:AssetImage(pathImage),fit: BoxFit.fill )),
+                            ),
+                            Positioned(
+                              right: 0,
+                              top: 15,
+                              bottom: 15,
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    border: Border.all(color: mainColor)),
+                                height: 60,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: InkWell(
+                                        child: Container(
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                            color: backgroundBox,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(5),
+                                                topRight: Radius.circular(5)),
+                                          ),
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 20,
+                                            color: Colors.black,
+                                          ),
                                         ),
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 20,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        count.value++;
-                                        print(count);
-                                        print('qqqqqqqqq');
-                                        print(count);
-                                      },
-                                    ),
-                                    flex: 1,
-                                  ),
-                                  Obx(
-                                    () => Expanded(
-                                      child: Container(
-                                        width: 20,
-                                        decoration:
-                                            BoxDecoration(color: mainColor),
-                                        child: Center(
-                                            child: Text(
-                                          count.value.toString(),
-                                          style: TextStyle(color: Colors.black),
-                                        )),
+                                        onTap: () {
+                                          int temp = dummyInts[index];
+
+                                          temp++;
+
+                                          dummyInts[index] = temp;
+                                        },
                                       ),
                                       flex: 1,
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: InkWell(
-                                      onTap: () {
-                                        count.value--;
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: backgroundBox,
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(5),
-                                              bottomRight: Radius.circular(5)),
+                                    Obx(
+                                      () => Expanded(
+                                        child: Container(
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                              color: dummyInts[index] == 0
+                                                  ? mainColor
+                                                  : softGrey),
+                                          child: Center(
+                                              child: Text(
+                                            dummyInts[index].toString(),
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          )),
                                         ),
-                                        width: 20,
-                                        child: Icon(
-                                          Icons.remove,
-                                          size: 20,
-                                        ),
+                                        flex: 1,
                                       ),
                                     ),
-                                    flex: 1,
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          int temp = dummyInts[index];
+                                          if (temp == 0) {
+                                            return;
+                                          }
+                                          temp--;
+
+                                          dummyInts[index] = temp;
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: backgroundBox,
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(5),
+                                                bottomRight:
+                                                    Radius.circular(5)),
+                                          ),
+                                          width: 35,
+                                          child: Icon(
+                                            Icons.remove,
+                                            size: 20,
+                                          ),
+                                        ),
+                                      ),
+                                      flex: 1,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }),
